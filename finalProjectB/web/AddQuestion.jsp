@@ -20,6 +20,17 @@
     <body>
         <c:out value="${QuizTitle}"></c:out>
         <br/>
+        <c:if test="${!empty QuestionArray}">
+            <form action="AddQuestion"><%-- this needs to be a servlet --%>
+                <c:forEach var="question" items="${QuestionArray}" varStatus="loopQ">
+                    <span><c:out value="${question}"></c:out></span><input type="button" value="Delete Question"/><input type="hidden" value="${loopQ.index}"/>
+                    <c:forEach var="answer" items="${question.Answers}" varStatus="loopA">
+                        <span><c:out value="${answer}"></c:out></span><input type="button" value="Delete Answer"/><input type="hidden" value="${loopA.index}"/>
+                    </c:forEach>
+                </c:forEach>
+            </form>
+        </c:if>
+        <br/>
         <form action="AddQuestion">
         <%-- should I point to a servlet? --%>
             <input type="text" name="Question"/>Add question here.
