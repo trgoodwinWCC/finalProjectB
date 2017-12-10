@@ -25,7 +25,9 @@
         </c:when>
         <c:otherwise>
             <a class="login" href="login">Login</a>
-            <%-- consider "including" the login part into this page --%>
+            <%-- consider "including" the login part into this page 
+                Or consider forcing login via java doFilter, and just show that they are logged in.
+            --%>
         </c:otherwise>
     </c:choose>
     <body>
