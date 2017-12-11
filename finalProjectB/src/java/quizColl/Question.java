@@ -11,6 +11,11 @@ public class Question {
     private ArrayList<String> answers = new ArrayList<>();
     private int correctAnswerIndex;
 
+    public Question(String question, String type) {
+        this.question = question;
+        this.type = type;
+    }
+    
     public String getQuestion() {
         return question;
     }
