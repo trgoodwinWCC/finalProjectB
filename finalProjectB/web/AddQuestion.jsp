@@ -34,7 +34,6 @@
         <form action="AddQuestion">
         <%-- should I point to a servlet? --%>
             <input type="text" name="Question"/>Add question here.
-            <br/><input type="text" name="QuizDesc"/>Pick the answer type. Radio Button
             <input type="hidden" name="QuestionIndex"/><%-- this one is wrong but I want to do something similar --%>
             <br/><input type="submit" name="action" value="Add quiz"/>
         </form>

@@ -12,17 +12,17 @@ public class QuestionCollection {
         String errorMessage="";
         String action = request.getParameter("action");
         if (action != null ) {
-            String question = request.getParameter("Question");
-            //int questionIndex = Integer.parseInt(request.getParameter("questionIndex"));//this isnt what I want
-            String type = request.getParameter("Type");
-            Question questionBean = new Question(question, type);
+            
 
             String strIndex;
             int index;
 
             switch (action) {
-                case "Clear List":
-                    errorMessage=DB_Book.remove(-1, statement);
+                case "Add quiz":
+                    String quizTitle = request.getParameter("QuizTitle");
+                    String quizDesc = request.getParameter("QuizDesc");
+                    //int questionIndex = Integer.parseInt(request.getParameter("questionIndex")); this isnt what I want
+                    Quiz quizBean = new Quiz(quizDesc, quizDesc);
                     break;
                 case "add":
                     errorMessage = book.insert(statement);

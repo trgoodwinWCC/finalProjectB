@@ -7,13 +7,11 @@ public class Question {
     
     private String question;
     private int questionIndex;
-    private String type;
     private ArrayList<String> answers = new ArrayList<>();
     private int correctAnswerIndex;
 
-    public Question(String question, String type) {
+    public Question(String question) {
         this.question = question;
-        this.type = type;
     }
     
     public String getQuestion() {
@@ -21,9 +19,6 @@ public class Question {
     }
     public int getQuestionIndex() {
         return questionIndex;
-    }
-    public String getType() {
-        return type;
     }
     public ArrayList<String> getAnswers() {
         return answers;
@@ -37,9 +32,6 @@ public class Question {
     }
     public void setQuestionIndex(int questionIndex) {
         this.questionIndex = questionIndex;
-    }
-    public void setType(String type) {
-        this.type = type;
     }
     public void setCorrectAnswerIndex(int correctAnswerIndex) {
         this.correctAnswerIndex = correctAnswerIndex;
