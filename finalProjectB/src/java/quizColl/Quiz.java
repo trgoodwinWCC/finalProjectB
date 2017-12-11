@@ -16,11 +16,30 @@ public class Quiz {
         this.quizName = quizName;
         this.quizDesc = quizDesc;
     }
-    public void setQuestions(Question q) {
+
+    public String getQuizName() {
+        return quizName;
+    }
+    public String getQuizDesc() {
+        return quizDesc;
+    }
+    public void setQuizName(String quizName) {
+        this.quizName = quizName;
+    }
+    public void setQuizDesc(String quizDesc) {
+        this.quizDesc = quizDesc;
+    }
+    
+    
+    public void setallQuestions(String question) {
+        Question q = new Question(question);
         if(this.allQuestions.contains(q))
             System.out.println("Already added question");
         else
             this.allQuestions.add(q);
+    }
+    public ArrayList<Question> getallQuestions() {
+        return allQuestions;
     }
     
     
