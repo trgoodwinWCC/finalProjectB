@@ -14,12 +14,12 @@
         </listener-class>
     </listener>
     <servlet>
-        <servlet-name>PersonServlet</servlet-name>
-        <servlet-class>db_persons.DB_PersonServlet</servlet-class>
+        <servlet-name>QuizServlet</servlet-name>
+        <servlet-class>quizColl.QuizServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>PersonServlet</servlet-name>
-        <url-pattern>/DB_PersonServlet</url-pattern>
+        <servlet-name>QuizServlet</servlet-name>
+        <url-pattern>/quizServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

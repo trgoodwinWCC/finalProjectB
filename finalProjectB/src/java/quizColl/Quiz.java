@@ -44,6 +44,7 @@ public class Quiz {
     
     
     //other code starts here:
+    /*
     public String update(int index, Statement statement) {
         String sql = "update PersonCollection set Name= ?, EyeColor= ?, HairColor= ?, Height= ?, Weight= ? where PersonSpot= ?";
         PreparedStatement pmt;
@@ -139,4 +140,5 @@ public class Quiz {
         }
         return error;
     }
+    */
 }

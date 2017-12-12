@@ -31,11 +31,12 @@
             </form>
         </c:if>
         <br/>
-        <form action="AddQuestion">
+        <form action="quizServlet">
         <%-- should I point to a servlet? --%>
             <input type="text" name="Question"/>Add question here.
             <input type="hidden" name="QuestionIndex"/><%-- this one is wrong but I want to do something similar --%>
             <br/><input type="submit" name="action" value="Add Question"/>
+            <br/><input type="submit" name="action" value="Done adding questions"/>
         </form>
     </body>
 </html>

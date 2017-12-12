@@ -32,7 +32,7 @@
     </c:choose>
     <body>
         <h1>Add a seller page</h1>
-        <form action="AddQuestion">
+        <form action="quizServlet">
             <input type="text" name="QuizTitle"/>Add your quiz's title here.
             <br/><input type="text" name="QuizDesc"/>Add your description here.
             <br/><input type="submit" name="action" value="Add quiz">
