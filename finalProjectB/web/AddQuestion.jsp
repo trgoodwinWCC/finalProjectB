@@ -38,22 +38,22 @@
         </form>
         <br/>
         <c:if test="${!empty quiz}">
-        <form action="AddQuestion"><%-- this needs to be a servlet --%>
+            <form action="AddQuestion"><%-- this needs to be a servlet --%>
                 <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
                     <table>
                         <tr>
-                            <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out><input type="button" value="Delete Question"/><input type="hidden" name="questionIndex" value="${loopQ.index}"/></th>
+                            <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out><input type="button" name="action" value="Delete Question"/><input type="hidden" name="questionIndex" value="${loopQ.index}"/></th>
                         </tr>
                         <tr>
                             <c:forEach var="answer" items="${question.answers}" varStatus="loopA">
                                 <td>
-                                    <c:out value="${answer}"></c:out><input type="button" value="Delete Answer"/><input type="hidden" name="answerIndex" value="${loopA.index}"/>
+                                    <c:out value="${answer}"></c:out><input type="button" name="action" value="Delete Answer"/><input type="hidden" name="answerIndex" value="${loopA.index}"/>
                                 </td>
                             </c:forEach>
                         </tr>
                     </table>
                 </c:forEach>
-        </form>
+            </form>
         </c:if>
     </body>
 </html>

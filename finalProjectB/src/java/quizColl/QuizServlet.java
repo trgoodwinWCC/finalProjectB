@@ -57,6 +57,16 @@ public class QuizServlet extends HttpServlet {
                     session.setAttribute("quiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/Review.jsp");
                     break;
+                case "Delete Question":
+                    //this part unfinised.
+                    quizBean = (Quiz)session.getAttribute("quiz");
+                    int questionIndex = Integer.parseInt(req.getParameter("questionIndex"));
+                    quizBean.getallQuestions().remove(questionIndex);
+                    session.setAttribute("quiz", quizBean);
+                    System.out.println("--Got to delete--"+questionIndex+"--"+req.getHeader("Referer"));
+                    //dispatcher = getServletContext().getRequestDispatcher(req.getHeader("Referer"));
+                    resp.sendRedirect(req.getHeader("Referer"));
+                    break;
             }
 
         }
