@@ -2,7 +2,6 @@ package quizColl;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +13,6 @@ public class QuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
-        ServletContext servletContext = getServletContext();
         String errorMessage = "";
         HttpSession session = req.getSession();
         RequestDispatcher dispatcher = null;
@@ -48,7 +46,7 @@ public class QuizServlet extends HttpServlet {
                 case "Done adding answers":
                     quizBean = (Quiz)session.getAttribute("quiz");
                     String answer2 = req.getParameter("Answer");
-                    quizBean.getallQuestions().get(quizBean.getallQuestions().size()).setAnswers(answer2);
+                    quizBean.getallQuestions().get(quizBean.getallQuestions().size()-1).setAnswers(answer2);
                     session.setAttribute("quiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
                     break;

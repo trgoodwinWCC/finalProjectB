@@ -7,8 +7,8 @@
         <title>Index B</title>
     </head>
     <body>
-        <c:redirect url = "DB_PersonServlet"/>
-        <a href='createQuiz'>Create a Quiz</a>
+        <%-- <c:redirect url = "DB_PersonServlet"/> --%>
+        <a href='createQuiz.jsp'>Create a Quiz</a>
         <a href='QuizIndex'>Take a Quiz</a>
     </body>
 </html>

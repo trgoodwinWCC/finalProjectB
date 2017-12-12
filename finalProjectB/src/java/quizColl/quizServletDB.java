@@ -32,7 +32,7 @@ public class quizServletDB extends HttpServlet {
             statement = connection.createStatement();
 
             if (statement != null ) {
-                errorMessage = QuestionCollection.update(statement, request);
+                //errorMessage = QuestionCollection.update(statement, request);
                 statement.close();      
             }
             
