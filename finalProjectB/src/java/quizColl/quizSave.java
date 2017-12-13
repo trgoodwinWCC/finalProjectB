@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class quizSave {
 
-    public String insert(Statement statement) {
+    public static String insert(Statement statement, Quiz q) {
         //change to add in chunks to the db as nomalized data, example: quiz, then questions, then answers
         // First find out if the book is already in the collection:
         String sql2 = "select Name from PersonCollection where Name=? AND EyeColor=? AND HairColor=? AND Height=? AND Weight=?";

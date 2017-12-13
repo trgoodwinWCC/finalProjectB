@@ -29,6 +29,14 @@
         <servlet-name>QuizServletDB</servlet-name>
         <url-pattern>/quizServletDB</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>quizColl.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/quizServletDB</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

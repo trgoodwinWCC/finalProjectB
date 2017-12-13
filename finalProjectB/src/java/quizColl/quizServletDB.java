@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import jdbc.ConnectionPool;
 
 public class quizServletDB extends HttpServlet {
@@ -24,6 +25,9 @@ public class quizServletDB extends HttpServlet {
         ServletContext servletContext = getServletContext();
         ConnectionPool connectionPool = (ConnectionPool) servletContext.getAttribute("connectionPool");
 
+        HttpSession session = request.getSession();
+        Quiz quizBean = (Quiz)session.getAttribute("quiz");
+        
         Connection connection;
         Statement statement;
         String errorMessage = "";
@@ -33,6 +37,7 @@ public class quizServletDB extends HttpServlet {
 
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
+                quizSave.insert(statement,quizBean);
                 System.out.println("Got to DB");
                 statement.close();      
             }
