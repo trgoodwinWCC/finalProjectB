@@ -70,7 +70,11 @@ public class QuizServlet extends HttpServlet {
                     resp.sendRedirect(req.getHeader("Referer"));
                     break;
                 case "Save quiz":
-                    dispatcher = getServletContext().getRequestDispatcher(req.getHeader("quizServletDB"));
+                    dispatcher = getServletContext().getRequestDispatcher("quizServletDB");
+                    break;
+                case "Abandon quiz":
+                    session.removeAttribute("quiz");
+                    dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                     break;
             }
 

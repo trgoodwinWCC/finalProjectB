@@ -33,6 +33,7 @@ public class quizServletDB extends HttpServlet {
 
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
+                System.out.println("Got to DB");
                 statement.close();      
             }
             

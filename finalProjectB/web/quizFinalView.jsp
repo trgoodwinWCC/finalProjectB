@@ -19,14 +19,15 @@
                 border-spacing: 2px;
                 border-color: gray;
                 border-style: solid;
+                margin-left:auto;
+                margin-right:auto;
             }
             th, td {
                 border: solid 2px lightgrey;
                 padding: 10px;
             }
             .center {
-                margin-left:auto;
-                margin-right:auto;
+                text-align: center;
             }
             <%-- consider making a css page for this --%>
         </style>
@@ -38,10 +39,10 @@
         </script>
     </head>
     <body>
-        <span class="center"><c:out value="${quiz.quizName}"></c:out></span><br/>
+        <div class="center"><c:out value="${quiz.quizName}"></c:out></div><br/>
         <c:if test="${!empty quiz}">
             <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
-                <table class="center">
+                <table>
                     <tr>
                         <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out></th>
                     </tr>
@@ -55,7 +56,7 @@
                 </table>
             </c:forEach>
         </c:if>
-        <form action="quizServlet">
+        <form action="quizServlet" class="center">
             <input type="button" name="action" value="Save quiz" class="center"/>
             <input type="button" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
         </form>

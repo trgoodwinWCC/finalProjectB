@@ -38,7 +38,7 @@
         </form>
         <br/>
         <c:if test="${!empty quiz}">
-            <form action="AddQuestion"><%-- this needs to be a servlet --%>
+            <form action="quizServlet"><%-- this needs to be a servlet --%>
                 <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
                     <table>
                         <tr>
