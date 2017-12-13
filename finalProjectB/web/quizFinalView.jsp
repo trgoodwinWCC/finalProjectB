@@ -31,7 +31,7 @@
             }
             <%-- consider making a css page for this --%>
         </style>
-        <script>
+        <script type="text/javascript">
             .getElementById("deleteButton")
             .addEventListener("click", function(){ 
                 return confirm("This will delete the quiz, are you sure?");

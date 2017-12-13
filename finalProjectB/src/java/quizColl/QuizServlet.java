@@ -24,9 +24,14 @@ public class QuizServlet extends HttpServlet {
                 case "Add quiz":
                     String quizTitle = req.getParameter("QuizTitle");
                     String quizDesc = req.getParameter("QuizDesc");
-                    Quiz quizBean = new Quiz(quizTitle, quizDesc);
-                    session.setAttribute("quiz", quizBean);
-                    dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
+                    if(quizTitle!=null&&!quizTitle.isEmpty()) {
+                        Quiz quizBean = new Quiz(quizTitle, quizDesc);
+                        session.setAttribute("quiz", quizBean);
+                        dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
+                    }
+                    else {
+                        dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
+                    }
                     break;
                 case "Add Question":
                     quizBean = (Quiz)session.getAttribute("quiz");
