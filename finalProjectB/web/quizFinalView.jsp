@@ -57,8 +57,8 @@
             </c:forEach>
         </c:if>
         <form action="quizServlet" class="center">
-            <input type="button" name="action" value="Save quiz" class="center"/>
-            <input type="button" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
+            <input type="submit" name="action" value="Save quiz" class="center"/>
+            <input type="submit" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
         </form>
     </body>
 </html>
