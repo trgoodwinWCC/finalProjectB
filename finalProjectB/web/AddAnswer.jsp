@@ -21,7 +21,7 @@
                 border-style: solid;
             }
             th, td {
-                border: 2px;
+                border: solid 2px lightgrey;
                 padding: 10px;
             }
             <%-- consider making a css page for this --%>

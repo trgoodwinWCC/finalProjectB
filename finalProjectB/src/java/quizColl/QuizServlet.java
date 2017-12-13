@@ -53,9 +53,11 @@ public class QuizServlet extends HttpServlet {
                 case "Done adding questions":
                     quizBean = (Quiz)session.getAttribute("quiz");
                     String question2 = req.getParameter("Question");
-                    quizBean.setallQuestions(question2);
-                    session.setAttribute("quiz", quizBean);
-                    dispatcher = getServletContext().getRequestDispatcher("/Review.jsp");
+                    if(question2!=null&&!question2.isEmpty()) {
+                        quizBean.setallQuestions(question2);
+                        session.setAttribute("quiz", quizBean);
+                    }
+                    dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     break;
                 case "Delete Question":
                     //this part unfinised.
@@ -66,6 +68,9 @@ public class QuizServlet extends HttpServlet {
                     System.out.println("--Got to delete--"+questionIndex+"--"+req.getHeader("Referer"));
                     //dispatcher = getServletContext().getRequestDispatcher(req.getHeader("Referer"));
                     resp.sendRedirect(req.getHeader("Referer"));
+                    break;
+                case "Save quiz":
+                    dispatcher = getServletContext().getRequestDispatcher(req.getHeader("quizServletDB"));
                     break;
             }
 

@@ -44,10 +44,7 @@ public class quizServletDB extends HttpServlet {
         }
 
         request.setAttribute("errorMessage", errorMessage);
-
-        RequestDispatcher dispatcher =
-                getServletContext().getRequestDispatcher("/db_bookCollection.jsp");
-
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
     }
 
