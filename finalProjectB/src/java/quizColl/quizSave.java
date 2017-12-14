@@ -17,6 +17,7 @@ public class quizSave {
         int quizID = 0;
         int questionID = 0;
         try {
+            //quiz part
             pmt = statement.getConnection().prepareStatement(quizSQL,Statement.RETURN_GENERATED_KEYS);
             pmt.setString(1, q.getQuizName());
             pmt.setString(2, q.getQuizDesc());
@@ -31,13 +32,12 @@ public class quizSave {
         }
 
         try {
-            System.out.println("Size:"+q.getallQuestions().size());
             for(int i=0;i<(q.getallQuestions().size());i++) {
+                //question part
                 pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
                 pmt.setString(1, q.getallQuestions().get(i).getQuestion());
                 pmt.setInt(2, q.getallQuestions().get(i).getCorrectAnswerIndex());
                 pmt.setInt(3, quizID);
-                System.out.println("Position i:"+i);
                 pmt.executeUpdate();
                 ResultSet rs = pmt.getGeneratedKeys();
                 if(rs.next()) {
@@ -45,6 +45,7 @@ public class quizSave {
                 }
                 pmt = statement.getConnection().prepareStatement(answerSQL);
                 for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size());k++) {
+                    //answers part
                     pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
                     pmt.setInt(2, questionID);
                     System.out.println("Postion k:"+k);

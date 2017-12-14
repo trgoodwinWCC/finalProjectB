@@ -64,6 +64,7 @@
             </form>
         </c:if>
         <c:if test="${quizComplete}">
+            <br/>
             <form action="quizServlet" class="center">
                 <input type="submit" name="action" value="Save quiz" class="center"/>
                 <input type="submit" name="action" id="deleteButton" value="Abandon quiz" class="center"/>

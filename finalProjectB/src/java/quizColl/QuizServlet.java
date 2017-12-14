@@ -86,25 +86,15 @@ public class QuizServlet extends HttpServlet {
                     session.setAttribute("quiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     break;
-                case "Delete Question":
-                    //this part unfinised.
-                    quizBean = (Quiz)session.getAttribute("quiz");
-                    int questionIndex = Integer.parseInt(req.getParameter("/questionIndex"));
-                    quizBean.getallQuestions().remove(questionIndex);
-                    session.setAttribute("quiz", quizBean);
-                    System.out.println("--Got to delete--"+questionIndex+"--"+req.getHeader("Referer"));
-                    //dispatcher = getServletContext().getRequestDispatcher(req.getHeader("Referer"));
-                    resp.sendRedirect(req.getHeader("Referer"));
-                    break;
                 case "Set correct answers":
                     quizBean = (Quiz)session.getAttribute("quiz");
                     for(int i=0;i<quizBean.getallQuestions().size();i++) {
-                        String test = req.getParameter(Integer.toString(i));
-                        int test1 = req.getParameterValues(Integer.toString(i)).length;
-                        System.out.println("quizFinalView name#"+i+"='"+test+"', length of values='"+test1);
+                        int correctAnswerAtQi = Integer.parseInt(req.getParameter(Integer.toString(i)));
+                        quizBean.getallQuestions().get(i).setCorrectAnswerIndex(correctAnswerAtQi);
                     }
                     session.setAttribute("SaveQuiz", quizBean);
-                    dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    session.setAttribute("quizComplete", true);
+                    dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     session.removeAttribute("quiz");
                     break;
                 case "Save quiz":
