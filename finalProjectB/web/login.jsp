@@ -8,14 +8,14 @@
     </head>
     <body>
         <h2>You must login/signup</h2>
-        <form action="loginServletT">
+        <form action="loginServlet">
             <span>Login</span>
             <br/><input type="text" name="UsernameLogin"/>Login Username.
             <br/><input type="password" name="PasswordLogin"/>Login Password.
             <br/><input type="submit" name="action" value="Login">
         </form>
         <hr/>
-        <form action="loginServletT">
+        <form action="loginServlet">
             <span>Create account</span>
             <br/><input type="text" name="UsernameCreate"/>Pick Username.
             <br/><input type="password" name="PasswordCreate"/>Pick Password.
