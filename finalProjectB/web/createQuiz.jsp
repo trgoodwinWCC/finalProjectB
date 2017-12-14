@@ -30,7 +30,7 @@
         </c:otherwise>
     </c:choose>
     <body>
-        <h1>Add a seller page</h1>
+        <h2>Quiz creation start</h2>
         <form action="quizServlet">
             <input type="text" name="QuizTitle"/>Add your quiz's title here.
             <br/><input type="text" name="QuizDesc"/>Add your description here.

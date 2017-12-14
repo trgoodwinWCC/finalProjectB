@@ -71,9 +71,18 @@ public class quizSave {
     }
 
     public static String getQuiz(Statement statement, int quizID) {
-        // This is nomalized data,which each insert follows the other. example: quiz, then all questions, then all answers
-        String quizSQL = "SELECT Quiz from Quizzes values(null, ?, ?, ?)";
-        String questionSQL = "insert into Questions values(null, ?, ?, ?)";
+        // Change this to get just one quiz of quizID
+        /* 
+        Things to finish: 
+        Delete buttons need to be fixed and added for the take-a-quiz page.
+        Take a quiz page needs all the quizzes listed.
+        ^Make a arraylist of all the quizzes and their id so I can add a delete button foreach match between logged-in user and their quizzes.
+        Add/fix the correct answer checkbox and make sure one is picked somehow.
+        Maybe do a include on the array display in creating a quiz.
+        Maybe make a master css page and inlude it in all the .jsp pages.
+        */
+        String quizSQL = "SELECT ID,QuizName,QuizDesc,CreatedByUser from Quizzes WHERE ID=?";
+        String questionSQL = "SELECT Question Questions values(null, ?, ?, ?)";
         String answerSQL = "insert into Answers values(null, ?, ?)";
         PreparedStatement pmt;
         String error="";
