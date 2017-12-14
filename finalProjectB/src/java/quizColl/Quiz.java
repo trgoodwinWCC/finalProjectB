@@ -27,7 +27,7 @@ public class Quiz {
     }
     
     
-    public void setallQuestions(String question) {
+    public void setQuestions(String question) {
         Question q = new Question(question);
         if(this.allQuestions.contains(q))
             System.out.println("Already added question");

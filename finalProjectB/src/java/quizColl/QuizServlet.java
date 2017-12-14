@@ -39,7 +39,7 @@ public class QuizServlet extends HttpServlet {
                     Quiz quizBean = (Quiz)session.getAttribute("quiz");
                     String question1 = req.getParameter("Question");
                     if(question1!=null&&!question1.isEmpty()) {
-                        quizBean.setallQuestions(question1);
+                        quizBean.setQuestions(question1);
                         session.setAttribute("quiz", quizBean);
                         dispatcher = getServletContext().getRequestDispatcher("/AddAnswer.jsp");
                     }
@@ -75,7 +75,7 @@ public class QuizServlet extends HttpServlet {
                     quizBean = (Quiz)session.getAttribute("quiz");
                     String question2 = req.getParameter("Question");
                     if(question2!=null&&!question2.isEmpty()) {
-                        quizBean.setallQuestions(question2);
+                        quizBean.setQuestions(question2);
                         session.setAttribute("quiz", quizBean);
                     }
                     dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");

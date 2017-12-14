@@ -27,6 +27,7 @@ public class quizServletDB extends HttpServlet {
 
         HttpSession session = request.getSession();
         Quiz quizBean = (Quiz)session.getAttribute("quiz");
+        String username = (String)session.getAttribute("Username");
         
         Connection connection;
         Statement statement;
@@ -37,7 +38,7 @@ public class quizServletDB extends HttpServlet {
 
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
-                quizSave.insert(statement,quizBean);
+                quizSave.insert(statement,quizBean,username);
                 System.out.println("Got to DB");
                 statement.close();      
             }

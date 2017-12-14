@@ -7,32 +7,47 @@ import java.sql.SQLException;
 
 public class quizSave {
 
-    public static String insert(Statement statement, Quiz q) {
-        //change to add in chunks to the db as nomalized data, example: quiz, then questions, then answers
-        // First find out if the book is already in the collection:
-        String sql2 = "select Name from PersonCollection where Name=? AND EyeColor=? AND HairColor=? AND Height=? AND Weight=?";
+    public static String insert(Statement statement, Quiz q, String username) {
+        // This is nomalized data,which each insert follows the other. example: quiz, then all questions, then all answers
+        String quizSQL = "insert into Quizzes values(null, ?, ?, ?)";
+        String questionSQL = "insert into Questions values(null, ?, ?, ?)";
+        String answerSQL = "insert into Answers values(null, ?, ?)";
         PreparedStatement pmt;
         String error="";
+        int quizID = 0;
+        int questionID = 0;
         try {
-            pmt = statement.getConnection().prepareStatement(sql2);
-            pmt.setString(1, name);
-            pmt.setString(2, eyeColor);
-            pmt.setString(3, hairColor);
-            pmt.setString(4, height);
-            pmt.setString(5, weight);
-            System.out.println(pmt+" prepared1");
-            ResultSet rs = pmt.executeQuery();
-            if (rs.next()) {
-                return "Person already exists";
-            }
-            sql2 = "insert into PersonCollection values(?, ?, ?, ?, ?, null)";
-            pmt = statement.getConnection().prepareStatement(sql2);
-            pmt.setString(1, name);
-            pmt.setString(2, eyeColor);
-            pmt.setString(3, hairColor);
-            pmt.setString(4, height);
-            pmt.setString(5, weight);
+            pmt = statement.getConnection().prepareStatement(quizSQL,Statement.RETURN_GENERATED_KEYS);
+            pmt.setString(1, q.getQuizName());
+            pmt.setString(2, q.getQuizDesc());
+            pmt.setString(3, username);
             pmt.executeUpdate();
+            ResultSet rs = pmt.getGeneratedKeys();
+            if(rs.next()) {
+                quizID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            error = ex.toString();
+        }
+
+        try {
+            pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
+            for(int i=0;i<(q.getallQuestions().size()-1);i++) {
+                pmt.setString(1, q.getallQuestions().get(i).getQuestion());
+                pmt.setInt(2, q.getallQuestions().get(i).getCorrectAnswerIndex());
+                pmt.setInt(3, quizID);
+                pmt.executeUpdate();
+                ResultSet rs = pmt.getGeneratedKeys();
+                if(rs.next()) {
+                    questionID = rs.getInt(1);
+                }
+                pmt = statement.getConnection().prepareStatement(answerSQL,Statement.RETURN_GENERATED_KEYS);
+                for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size()-1);k++) {
+                    pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
+                    pmt.setInt(2, questionID);
+                    pmt.executeUpdate();
+                }
+            }
         } catch (SQLException ex) {
             error = ex.toString();
         }
