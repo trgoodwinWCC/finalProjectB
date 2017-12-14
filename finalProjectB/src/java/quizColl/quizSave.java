@@ -31,27 +31,29 @@ public class quizSave {
         }
 
         try {
-            pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
-            for(int i=0;i<(q.getallQuestions().size()-1);i++) {
+            System.out.println("Size:"+q.getallQuestions().size());
+            for(int i=0;i<(q.getallQuestions().size());i++) {
+                pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
                 pmt.setString(1, q.getallQuestions().get(i).getQuestion());
                 pmt.setInt(2, q.getallQuestions().get(i).getCorrectAnswerIndex());
                 pmt.setInt(3, quizID);
+                System.out.println("Position i:"+i);
                 pmt.executeUpdate();
                 ResultSet rs = pmt.getGeneratedKeys();
                 if(rs.next()) {
                     questionID = rs.getInt(1);
                 }
                 pmt = statement.getConnection().prepareStatement(answerSQL);
-                for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size()-1);k++) {
+                for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size());k++) {
                     pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
                     pmt.setInt(2, questionID);
+                    System.out.println("Postion k:"+k);
                     pmt.executeUpdate();
                 }
             }
         } catch (SQLException ex) {
             error = ex.toString();
         }
-        System.out.println("got to insert just fine");
         return error;
     }
 
@@ -61,24 +63,65 @@ public class quizSave {
         try {
             pmt = statement.getConnection().prepareStatement(deleteQuizSQL);
             pmt.setInt(1, userID);
-            pmt.setInt(1, quizID);
+            pmt.setInt(2, quizID);
             pmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
     }
 
-    private static String executeUpdate(String sql, Statement statement) {
-        String error = "";
+    public static String getQuiz(Statement statement, int quizID) {
+        // This is nomalized data,which each insert follows the other. example: quiz, then all questions, then all answers
+        String quizSQL = "SELECT Quiz from Quizzes values(null, ?, ?, ?)";
+        String questionSQL = "insert into Questions values(null, ?, ?, ?)";
+        String answerSQL = "insert into Answers values(null, ?, ?)";
+        PreparedStatement pmt;
+        String error="";
+        int quizID = 0;
+        int questionID = 0;
         try {
-            System.out.println("sql=" + sql);
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            error = e.toString();
+            pmt = statement.getConnection().prepareStatement(quizSQL,Statement.RETURN_GENERATED_KEYS);
+            pmt.setString(1, q.getQuizName());
+            pmt.setString(2, q.getQuizDesc());
+            pmt.setInt(3, userID);
+            pmt.executeUpdate();
+            ResultSet rs = pmt.getGeneratedKeys();
+            if(rs.next()) {
+                quizID = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            error = ex.toString();
         }
+
+        try {
+            System.out.println("Size:"+q.getallQuestions().size());
+            for(int i=0;i<(q.getallQuestions().size());i++) {
+                pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
+                pmt.setString(1, q.getallQuestions().get(i).getQuestion());
+                pmt.setInt(2, q.getallQuestions().get(i).getCorrectAnswerIndex());
+                pmt.setInt(3, quizID);
+                System.out.println("Position i:"+i);
+                pmt.executeUpdate();
+                ResultSet rs = pmt.getGeneratedKeys();
+                if(rs.next()) {
+                    questionID = rs.getInt(1);
+                }
+                pmt = statement.getConnection().prepareStatement(answerSQL);
+                for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size());k++) {
+                    pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
+                    pmt.setInt(2, questionID);
+                    System.out.println("Postion k:"+k);
+                    pmt.executeUpdate();
+                }
+            }
+        } catch (SQLException ex) {
+            error = ex.toString();
+        }
+        System.out.println("got to insert just fine");
         return error;
     }
-
+    
+    
     //old code from db_people
     public static String getPeople(Statement statement) {
         String error = "";

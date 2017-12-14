@@ -13,6 +13,14 @@
              jdbc.GlobalConnectionPool
         </listener-class>
     </listener>
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>quizColl.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>QuizServlet</servlet-name>
         <servlet-class>quizColl.QuizServlet</servlet-class>

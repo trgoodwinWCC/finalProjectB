@@ -1,9 +1,5 @@
 package quizColl;
-/*
-https://stackoverflow.com/tags/servlet-filters/info info about using filters
-https://stackoverflow.com/questions/13274279/authentication-filter-and-servlet-for-login the idea is pretty much what I want.
-Make sure to change the web.xml for all the changes in code.
-*/
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,7 +25,6 @@ public class quizServletDB extends HttpServlet {
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
         int userInt = 0;
-        Quiz quizBean = (Quiz)session.getAttribute("quiz");
         Quiz saveQuiz = (Quiz)session.getAttribute("SaveQuiz");
         if (session.getAttribute("UserID")!=null)
             userInt = (int)session.getAttribute("UserID");
@@ -46,9 +41,9 @@ public class quizServletDB extends HttpServlet {
             statement = connection.createStatement();
 
             if (statement != null ) {
-                //errorMessage = QuestionCollection.update(statement, request);
                 if(saveQuiz!=null) {
                     quizSave.insert(statement,saveQuiz,userInt);
+                    session.setAttribute("quizMade", "Quiz saved");
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 if(usernameLogin!=null&&passwordLogin!=null) {
