@@ -96,6 +96,17 @@ public class QuizServlet extends HttpServlet {
                     //dispatcher = getServletContext().getRequestDispatcher(req.getHeader("Referer"));
                     resp.sendRedirect(req.getHeader("Referer"));
                     break;
+                case "Set correct answers":
+                    quizBean = (Quiz)session.getAttribute("quiz");
+                    for(int i=0;i<quizBean.getallQuestions().size();i++) {
+                        String test = req.getParameter(Integer.toString(i));
+                        int test1 = req.getParameterValues(Integer.toString(i)).length;
+                        System.out.println("quizFinalView name#"+i+"='"+test+"', length of values='"+test1);
+                    }
+                    session.setAttribute("SaveQuiz", quizBean);
+                    dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    session.removeAttribute("quiz");
+                    break;
                 case "Save quiz":
                     quizBean = (Quiz)session.getAttribute("quiz");
                     session.setAttribute("SaveQuiz", quizBean);

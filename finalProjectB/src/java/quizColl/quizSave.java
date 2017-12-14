@@ -81,6 +81,8 @@ public class quizSave {
         Maybe do a include on the array display in creating a quiz.
         Maybe make a master css page and inlude it in all the .jsp pages.
         */
+        
+        /*
         String quizSQL = "SELECT ID,QuizName,QuizDesc,CreatedByUser from Quizzes WHERE ID=?";
         String questionSQL = "SELECT Question Questions values(null, ?, ?, ?)";
         String answerSQL = "insert into Answers values(null, ?, ?)";
@@ -128,6 +130,8 @@ public class quizSave {
         }
         System.out.println("got to insert just fine");
         return error;
+    */
+        return "";
     }
     
     

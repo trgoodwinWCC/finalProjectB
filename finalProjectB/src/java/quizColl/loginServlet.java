@@ -16,9 +16,10 @@ public class loginServlet extends HttpServlet {
         String errorMessage = "";
         HttpSession session = req.getSession();
         RequestDispatcher dispatcher = null;
-        
+        System.out.println("Got to loginServlet");
         String action = req.getParameter("action");
         if (action != null) {
+            System.out.println("action in loginServlet="+action);
             switch (action) {
                 case "Login":
                     String usernameLogin = req.getParameter("UsernameLogin");
@@ -30,6 +31,7 @@ public class loginServlet extends HttpServlet {
                     }
                     else {
                         errorMessage="Empty fields";
+                        System.out.println(errorMessage);
                         session.setAttribute("errorMessage", errorMessage);
                         dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                     }

@@ -28,9 +28,10 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
         String loginURI = request.getContextPath() + "/login.jsp";
+        String loginServ = request.getContextPath() + "/loginServlet";
 
         boolean loggedIn = (session!=null) && (session.getAttribute("Username") != null);
-        boolean loginRequest = request.getRequestURI().equals(loginURI);
+        boolean loginRequest = request.getRequestURI().equals(loginURI) || request.getRequestURI().equals(loginServ);
 
         if (loggedIn || loginRequest) {
             chain.doFilter(request, response); // Logged-in user found, so just continue request.

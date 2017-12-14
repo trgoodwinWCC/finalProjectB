@@ -44,6 +44,7 @@
         </c:if>
         <div class="center"><c:out value="${quiz.quizName}"></c:out></div><br/>
         <c:if test="${!empty quiz}">
+            <c:if test="${!quizComplete}"><h3>Check the correct answer for each question</h3></c:if>
             <form action="quizServlet">
                 <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
                     <table>
@@ -53,12 +54,13 @@
                         <tr>
                             <c:forEach var="answer" items="${question.answers}" varStatus="loopA">
                                 <td>
-                                    <c:out value="${answer}"></c:out><input type="radio" name="${loopQ.index}" value="${loopA.index}">
+                                    <c:out value="${answer}"></c:out><c:if test="${!quizComplete}"><input type="radio" name="${loopQ.index}" value="${loopA.index}"></c:if>
                                 </td>
                             </c:forEach>
                         </tr>
                     </table>
                 </c:forEach>
+                <input type="submit" name="action" value="Set correct answers"/>
             </form>
         </c:if>
         <c:if test="${quizComplete}">
