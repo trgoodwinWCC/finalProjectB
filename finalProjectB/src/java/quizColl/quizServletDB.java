@@ -27,9 +27,12 @@ public class quizServletDB extends HttpServlet {
         ConnectionPool connectionPool = (ConnectionPool) servletContext.getAttribute("connectionPool");
 
         HttpSession session = request.getSession();
+        RequestDispatcher dispatcher = null;
+        int userInt = 0;
         Quiz quizBean = (Quiz)session.getAttribute("quiz");
         Quiz saveQuiz = (Quiz)session.getAttribute("SaveQuiz");
-        int userInt = (int)session.getAttribute("UserID");
+        if (session.getAttribute("UserID")!=null)
+            userInt = (int)session.getAttribute("UserID");
         String usernameLogin = request.getParameter("UsernameLogin");
         String passwordLogin = request.getParameter("PasswordLogin");
         String usernameCreate = request.getParameter("UsernameCreate");
@@ -44,10 +47,32 @@ public class quizServletDB extends HttpServlet {
 
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
-                if(saveQuiz!=null)
+                if(saveQuiz!=null) {
                     quizSave.insert(statement,quizBean,userInt);
+                    dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                }
                 if(usernameLogin!=null&&passwordLogin!=null) {
-                    userInt=PasswordSave.Attempt
+                    userInt=PasswordSave.attemptLogin(usernameLogin, passwordLogin, statement);
+                    if(userInt==-1) {
+                        errorMessage="Failed to login";
+                        request.removeAttribute("UsernameLogin");
+                        request.removeAttribute("PasswordLogin");
+                        dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+                    }
+                    else {
+                        session.setAttribute("Username", usernameLogin);
+                        session.setAttribute("UserID", userInt);
+                        dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                    }
+                }
+                if(usernameCreate!=null&&passwordCreate!=null) {
+                    if(!PasswordSave.createAccount(usernameCreate, passwordCreate, statement))
+                        errorMessage="Failed to create account";
+                    else
+                        errorMessage="Account created, now login";
+                    request.removeAttribute("UsernameCreate");
+                    request.removeAttribute("PasswordCreate");
+                    dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                 }
                 System.out.println("Got to DB");
                 statement.close();      
@@ -61,7 +86,6 @@ public class quizServletDB extends HttpServlet {
         }
 
         request.setAttribute("errorMessage", errorMessage);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
         dispatcher.forward(request, response);
     }
 

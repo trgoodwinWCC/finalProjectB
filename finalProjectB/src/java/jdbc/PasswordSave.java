@@ -42,7 +42,7 @@ public class PasswordSave {
         return f.generateSecret(spec).getEncoded();
     }
 
-    private byte[] generateSalt() throws NoSuchAlgorithmException {
+    private static byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
         // Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
@@ -50,49 +50,7 @@ public class PasswordSave {
         random.nextBytes(salt);
         return salt;
     }
-    public static void main(String[] args) {
-        // I dont really understand on how to store the password or if its really working/check to make sure that the hash is not using sha-1
-        String password = "AtestPassword";
-        PasswordSave passwordEn = new PasswordSave();
-        byte[] salt = null;
-        byte[] pass = null;
-        try {
-            salt = passwordEn.generateSalt();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(PasswordSave.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            pass = passwordEn.getEncryptedPassword(password, salt);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-            Logger.getLogger(PasswordSave.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /* so it is working, use something like following and mysql blob type to send/retrive to db
-        String sql = "INSERT INTO mysql_all_table (col_binarystream) VALUES(?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        //java2s.com
-        byte[] buffer = "some data".getBytes();
-        pstmt.setBytes(1, buffer);
-        pstmt.executeUpdate();
-        pstmt.close();
-        
-        Statement stmt = connection.createStatement();
-        ResultSet resultSet = stmt.executeQuery("SELECT * FROM mysql_all_table");
-        while (resultSet.next()) {
-          byte[] bytes = resultSet.getBytes("col_binarystream");
-        }
-        */
-        for(byte bit: pass) {
-            System.out.println(bit);
-        }
-        System.out.println("---");
-        String encrypt = null;
-        try {
-            encrypt = new String(pass,"UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(PasswordSave.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(encrypt);
-    }
+    
     public static int attemptLogin(String username, String passwordFromUser, Statement statement) {
         //checks if the user exixts, if so, attempt to validate username and password.
         //returns -1 if anything fails, returns UserID if correct. Note int cannot be null.
@@ -127,7 +85,7 @@ public class PasswordSave {
         }
         return -1;
     }
-    public boolean createAccount(String username, String passwordFromUser, Statement statement) {
+    public static boolean createAccount(String username, String passwordFromUser, Statement statement) {
         String createAccountSQL = "select Username from Users where Username=?";
         PreparedStatement pmt;
         try {

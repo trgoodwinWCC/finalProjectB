@@ -19,8 +19,6 @@ public class loginServlet extends HttpServlet {
         
         String action = req.getParameter("action");
         if (action != null) {
-            
-    
             switch (action) {
                 case "Login":
                     String usernameLogin = req.getParameter("UsernameLogin");

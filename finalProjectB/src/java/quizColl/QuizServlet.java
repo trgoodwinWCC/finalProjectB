@@ -99,14 +99,12 @@ public class QuizServlet extends HttpServlet {
                     break;
                 case "Abandon quiz":
                     session.removeAttribute("quiz");
-                    System.out.println("Got to abandon");
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                     break;
             }
 
         }
         
-        //dispatcher = getServletContext().getRequestDispatcher("/db_personCollection.jsp");
         dispatcher.forward(req, resp);
     }
     
