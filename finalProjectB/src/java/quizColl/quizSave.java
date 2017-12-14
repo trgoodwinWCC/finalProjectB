@@ -55,13 +55,17 @@ public class quizSave {
         return error;
     }
 
-    // Note index =-1 will delete all rows
-    public static String remove(int index, Statement statement) {
-        String sql = "delete from PersonCollection ";
-        if (index >= 0) {
-            sql += " where PersonSpot=" + index;
+    public static void deleteQuiz(int userID, int quizID, Statement statement) {
+        String deleteQuizSQL = "delete from Quizzes where CreatedByUser=? AND ID=?";
+        PreparedStatement pmt;
+        try {
+            pmt = statement.getConnection().prepareStatement(deleteQuizSQL);
+            pmt.setInt(1, userID);
+            pmt.setInt(1, quizID);
+            pmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
         }
-        return executeUpdate(sql, statement);
     }
 
     private static String executeUpdate(String sql, Statement statement) {

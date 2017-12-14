@@ -7,7 +7,8 @@ public class Quiz {
     private String quizName;
     private String quizDesc;
     private ArrayList<Question> allQuestions = new ArrayList<>();
-
+    private int createdUserID;
+    
     public Quiz(String quizName, String quizDesc) {
         this.quizName = quizName;
         this.quizDesc = quizDesc;
@@ -19,11 +20,17 @@ public class Quiz {
     public String getQuizDesc() {
         return quizDesc;
     }
+    public int getCreatedUserID() {
+        return createdUserID;
+    }
     public void setQuizName(String quizName) {
         this.quizName = quizName;
     }
     public void setQuizDesc(String quizDesc) {
         this.quizDesc = quizDesc;
+    }
+    public void setCreatedUserID(int createdUserID) {
+        this.createdUserID = createdUserID;
     }
     
     
