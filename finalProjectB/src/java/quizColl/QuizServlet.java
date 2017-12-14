@@ -74,11 +74,16 @@ public class QuizServlet extends HttpServlet {
                     break;
                 case "Done adding questions":
                     quizBean = (Quiz)session.getAttribute("quiz");
+                    /*
                     String question2 = req.getParameter("Question");
                     if(question2!=null&&!question2.isEmpty()) {
                         quizBean.setQuestions(question2);
                         session.setAttribute("quiz", quizBean);
                     }
+                    */
+                    quizBean.getallQuestions().removeIf((Question q) -> q.getAnswers().isEmpty());
+                    // java 8 made that part easy
+                    session.setAttribute("quiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     break;
                 case "Delete Question":

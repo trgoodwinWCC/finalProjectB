@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>The final touches</title>
         <style>
             body {
                 background-color: <c:out value="${backgroundColor}">peach</c:out>;
@@ -44,24 +44,28 @@
         </c:if>
         <div class="center"><c:out value="${quiz.quizName}"></c:out></div><br/>
         <c:if test="${!empty quiz}">
-            <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
-                <table>
-                    <tr>
-                        <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out></th>
-                    </tr>
-                    <tr>
-                        <c:forEach var="answer" items="${question.answers}" varStatus="loopA">
-                            <td>
-                                <c:out value="${answer}"></c:out>
-                            </td>
-                        </c:forEach>
-                    </tr>
-                </table>
-            </c:forEach>
+            <form action="quizServlet">
+                <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
+                    <table>
+                        <tr>
+                            <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out></th>
+                        </tr>
+                        <tr>
+                            <c:forEach var="answer" items="${question.answers}" varStatus="loopA">
+                                <td>
+                                    <c:out value="${answer}"></c:out><input type="radio" name="${loopQ.index}" value="${loopA.index}">
+                                </td>
+                            </c:forEach>
+                        </tr>
+                    </table>
+                </c:forEach>
+            </form>
         </c:if>
-        <form action="quizServlet" class="center">
-            <input type="submit" name="action" value="Save quiz" class="center"/>
-            <input type="submit" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
-        </form>
+        <c:if test="${quizComplete}">
+            <form action="quizServlet" class="center">
+                <input type="submit" name="action" value="Save quiz" class="center"/>
+                <input type="submit" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
+            </form>
+        </c:if>
     </body>
 </html>

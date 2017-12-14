@@ -30,15 +30,13 @@
     <body>
         <c:out value="${quiz.quizName}"></c:out><br/>
         <form action="quizServlet">
-        <%-- should I point to a servlet? --%>
             <input type="text" name="Answer"/>Add answer here.
-            <br/><input type="checkbox" name="AnswerCorrect"/>Is the the correct answer?
             <br/><input type="submit" name="action" value="Add answer and continue"/>
             <br/><input type="submit" name="action" value="Done adding answers"/>
         </form>
         <br/>
         <c:if test="${!empty quiz}">
-            <form action="quizServlet"><%-- this needs to be a servlet --%>
+            <form action="quizServlet">
                 <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
                     <table>
                         <tr>
