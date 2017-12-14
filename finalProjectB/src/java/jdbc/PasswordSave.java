@@ -18,14 +18,14 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordSave {
 
-    public boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static boolean authenticate(String attemptedPassword, byte[] encryptedPassword, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // Encrypt the clear-text password using the same salt that was used to encrypt the original password
         byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
         // Authentication succeeds if encrypted password that the user entered  is equal to the stored hash.
         return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
     }
 
-    public byte[] getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private static byte[] getEncryptedPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
         // specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
         String algorithm = "PBKDF2WithHmacSHA1";
@@ -42,7 +42,7 @@ public class PasswordSave {
         return f.generateSecret(spec).getEncoded();
     }
 
-    public byte[] generateSalt() throws NoSuchAlgorithmException {
+    private byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
         SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
         // Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
@@ -93,40 +93,45 @@ public class PasswordSave {
         }
         System.out.println(encrypt);
     }
-    public boolean attemptLogin(String username, String passwordFromUser, Statement statement) {
+    public static int attemptLogin(String username, String passwordFromUser, Statement statement) {
         //checks if the user exixts, if so, attempt to validate username and password.
-        //returns false if anything fails, returns true if correct
-        String sql2 = "select User from accountTable where User=?";
+        //returns -1 if anything fails, returns UserID if correct. Note int cannot be null.
+        String loginSQL = "select Username from Users where Username=?";
         PreparedStatement pmt;
+        boolean loggedIn = false;
         try {
-            pmt = statement.getConnection().prepareStatement(sql2);
+            pmt = statement.getConnection().prepareStatement(loginSQL);
             pmt.setString(1, username);
             ResultSet rs = pmt.executeQuery();
             if (!rs.first()) {
-                return false;
+                return -1;
             }
-            sql2 = "select Password,Salt from accountTable where User=?";
-            pmt = statement.getConnection().prepareStatement(sql2);
+            loginSQL = "select Password,Salt,UserID from Users where User=?";
+            pmt = statement.getConnection().prepareStatement(loginSQL);
             pmt.setString(1, username);
             rs = pmt.executeQuery();
             rs.next();
             byte[] passwordFromDB = rs.getBytes("Password");
             byte[] salt = rs.getBytes("Salt");
             try {
-                return authenticate(username, passwordFromDB, salt);
+                loggedIn=authenticate(username, passwordFromDB, salt);
             } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                Logger.getLogger(PasswordSave.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Massive error in PasswordSave");
             }
+            if(loggedIn)
+                return rs.getInt("UserID");
+            else
+                return -1;
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         }
-        return false;
+        return -1;
     }
     public boolean createAccount(String username, String passwordFromUser, Statement statement) {
-        String sql2 = "select User from accountTable where User=?";
+        String createAccountSQL = "select Username from Users where Username=?";
         PreparedStatement pmt;
         try {
-            pmt = statement.getConnection().prepareStatement(sql2);
+            pmt = statement.getConnection().prepareStatement(createAccountSQL);
             pmt.setString(1, username);
             ResultSet rs = pmt.executeQuery();
             if (!rs.first()) {
@@ -134,8 +139,8 @@ public class PasswordSave {
             }
             byte[] salt = generateSalt();
             byte[] passwordToStore = getEncryptedPassword(username, salt);
-            sql2 = "insert into accountTable values(?, ?, ?)";
-            pmt = statement.getConnection().prepareStatement(sql2);
+            createAccountSQL = "insert into Users values(null, ?, ?, ?)";
+            pmt = statement.getConnection().prepareStatement(createAccountSQL);
             pmt.setString(1, username);
             pmt.setBytes(2, passwordToStore);
             pmt.setBytes(3, salt);
@@ -144,7 +149,7 @@ public class PasswordSave {
         } catch (SQLException ex) {
             System.out.println(ex.toString());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-            Logger.getLogger(PasswordSave.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Massive error in PasswordSave");
         }
         return false;
     }

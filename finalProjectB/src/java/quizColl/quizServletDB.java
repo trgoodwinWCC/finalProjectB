@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jdbc.ConnectionPool;
+import jdbc.PasswordSave;
 
 public class quizServletDB extends HttpServlet {
 
@@ -27,7 +28,12 @@ public class quizServletDB extends HttpServlet {
 
         HttpSession session = request.getSession();
         Quiz quizBean = (Quiz)session.getAttribute("quiz");
-        String username = (String)session.getAttribute("Username");
+        Quiz saveQuiz = (Quiz)session.getAttribute("SaveQuiz");
+        int userInt = (int)session.getAttribute("UserID");
+        String usernameLogin = request.getParameter("UsernameLogin");
+        String passwordLogin = request.getParameter("PasswordLogin");
+        String usernameCreate = request.getParameter("UsernameCreate");
+        String passwordCreate = request.getParameter("PasswordCreate");
         
         Connection connection;
         Statement statement;
@@ -38,7 +44,11 @@ public class quizServletDB extends HttpServlet {
 
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
-                quizSave.insert(statement,quizBean,username);
+                if(saveQuiz!=null)
+                    quizSave.insert(statement,quizBean,userInt);
+                if(usernameLogin!=null&&passwordLogin!=null) {
+                    userInt=PasswordSave.Attempt
+                }
                 System.out.println("Got to DB");
                 statement.close();      
             }

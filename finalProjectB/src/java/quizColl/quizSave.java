@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class quizSave {
 
-    public static String insert(Statement statement, Quiz q, String username) {
+    public static String insert(Statement statement, Quiz q, int userID) {
         // This is nomalized data,which each insert follows the other. example: quiz, then all questions, then all answers
         String quizSQL = "insert into Quizzes values(null, ?, ?, ?)";
         String questionSQL = "insert into Questions values(null, ?, ?, ?)";
@@ -20,7 +20,7 @@ public class quizSave {
             pmt = statement.getConnection().prepareStatement(quizSQL,Statement.RETURN_GENERATED_KEYS);
             pmt.setString(1, q.getQuizName());
             pmt.setString(2, q.getQuizDesc());
-            pmt.setString(3, username);
+            pmt.setInt(3, userID);
             pmt.executeUpdate();
             ResultSet rs = pmt.getGeneratedKeys();
             if(rs.next()) {
@@ -41,7 +41,7 @@ public class quizSave {
                 if(rs.next()) {
                     questionID = rs.getInt(1);
                 }
-                pmt = statement.getConnection().prepareStatement(answerSQL,Statement.RETURN_GENERATED_KEYS);
+                pmt = statement.getConnection().prepareStatement(answerSQL);
                 for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size()-1);k++) {
                     pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
                     pmt.setInt(2, questionID);

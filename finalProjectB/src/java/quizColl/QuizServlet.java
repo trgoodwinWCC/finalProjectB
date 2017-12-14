@@ -45,6 +45,7 @@ public class QuizServlet extends HttpServlet {
                     }
                     else {
                         errorMessage="Question is empty";
+                        session.setAttribute("error", errorMessage);
                         dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
                     }
                     break;
@@ -91,7 +92,10 @@ public class QuizServlet extends HttpServlet {
                     resp.sendRedirect(req.getHeader("Referer"));
                     break;
                 case "Save quiz":
+                    quizBean = (Quiz)session.getAttribute("quiz");
+                    session.setAttribute("SaveQuiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    session.removeAttribute("quiz");
                     break;
                 case "Abandon quiz":
                     session.removeAttribute("quiz");
