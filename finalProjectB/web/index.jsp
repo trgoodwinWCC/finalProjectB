@@ -6,7 +6,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Index B</title>
     </head>
+    <style>
+        .login {
+                background-color:lightgrey;
+                margin-right: 40px;
+                float: right;
+            }
+    </style>
     <body>
+        <c:if test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
+        </c:if>
         <c:out value="${quizMade}"></c:out>
         <a href='createQuiz.jsp'>Create a Quiz</a>
         <a href='QuizIndex'>Take a Quiz</a>

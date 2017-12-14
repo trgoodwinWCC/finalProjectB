@@ -28,11 +28,12 @@
         </style>
     </head>
     <body>
+        <c:if test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
+        </c:if>
         <c:out value="${quiz.quizName}"></c:out><br/>
         <form action="quizServlet">
-        <%-- should I point to a servlet? --%>
             <input type="text" name="Question"/>Add question here.
-            <input type="hidden" name="QuestionIndex"/><%-- this one is wrong but I want to do something similar --%>
             <br/><input type="submit" name="action" value="Add Question"/>
             <br/><input type="submit" name="action" value="Done adding questions"/>
         </form>

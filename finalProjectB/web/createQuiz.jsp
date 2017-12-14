@@ -17,19 +17,9 @@
         </style>
     </head>
     <body>
-        
-    <c:choose>
-        <c:when test="${!empty Username}">
-            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in</span>
-        </c:when>
-        <c:otherwise>
-            <a class="login" href="login">Login</a>
-            <%-- consider "including" the login part into this page 
-                Or consider forcing login via java doFilter, and just show that they are logged in.
-            --%>
-        </c:otherwise>
-    </c:choose>
-    <body>
+        <c:if test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
+        </c:if>
         <h2>Quiz creation start</h2>
         <form action="quizServlet">
             <input type="text" name="QuizTitle"/>Add your quiz's title here.

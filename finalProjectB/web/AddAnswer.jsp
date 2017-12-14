@@ -28,6 +28,9 @@
         </style>
     </head>
     <body>
+        <c:if test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
+        </c:if>
         <c:out value="${quiz.quizName}"></c:out><br/>
         <form action="quizServlet">
             <input type="text" name="Answer"/>Add answer here.

@@ -47,8 +47,6 @@ public class quizServletDB extends HttpServlet {
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 if(usernameLogin!=null&&passwordLogin!=null) {
-                    System.out.println("Username in qSdb="+usernameLogin);
-                    System.out.println("pass in qSdb="+passwordLogin);
                     userInt=PasswordSave.attemptLogin(usernameLogin, passwordLogin, statement);
                     if(userInt==-1) {
                         errorMessage="Failed to login";
