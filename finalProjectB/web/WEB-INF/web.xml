@@ -30,11 +30,11 @@
         <url-pattern>/quizServletDB</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>LoginS</servlet-name>
         <servlet-class>quizColl.loginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>LoginS</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
     </servlet-mapping>
     <session-config>

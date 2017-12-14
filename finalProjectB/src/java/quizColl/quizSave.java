@@ -79,13 +79,14 @@ public class quizSave {
         return error;
     }
 
-    public static String getPeople(Statement statement, ArrayList<DB_Person> people) {
+    //old code from db_people
+    public static String getPeople(Statement statement) {
         String error = "";
         try {
             String sql = "select * from PersonCollection";
             System.out.println("sql=" + sql);
             ResultSet rs = statement.executeQuery(sql);
-            people.clear();
+            //people.clear();
             while (rs.next()) {
                 String n = rs.getString("Name");
                 String e = rs.getString("EyeColor");
@@ -93,8 +94,8 @@ public class quizSave {
                 String h = rs.getString("Height");
                 String w = rs.getString("Weight");
                 int ind = rs.getInt("PersonSpot");
-                DB_Person bk = new DB_Person(n, e, c, h, w, ind);
-                people.add(bk);
+                //DB_Person bk = new DB_Person(n, e, c, h, w, ind);
+                //people.add(bk);
             }
         } catch (SQLException ex) {
             error = ex.toString();

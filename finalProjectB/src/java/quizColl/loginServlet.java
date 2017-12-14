@@ -26,11 +26,11 @@ public class loginServlet extends HttpServlet {
                     if((usernameLogin!=null&&!usernameLogin.isEmpty())&&(passwordLogin!=null&&!passwordLogin.isEmpty())) {
                         session.setAttribute("UsernameLogin", usernameLogin);
                         session.setAttribute("PasswordLogin", passwordLogin);
-                        dispatcher = getServletContext().getRequestDispatcher("/quizServletDB.jsp");
+                        dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
                     }
                     else {
                         errorMessage="Empty fields";
-                        session.setAttribute("error", errorMessage);
+                        session.setAttribute("errorMessage", errorMessage);
                         dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                     }
                     break;
@@ -40,11 +40,11 @@ public class loginServlet extends HttpServlet {
                     if((usernameCreate!=null&&!usernameCreate.isEmpty())&&(passwordCreate!=null&&!passwordCreate.isEmpty())) {
                         session.setAttribute("UsernameCreate", usernameCreate);
                         session.setAttribute("PasswordCreate", passwordCreate);
-                        dispatcher = getServletContext().getRequestDispatcher("/quizServletDB.jsp");
+                        dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
                     }
                     else {
                         errorMessage="Empty fields";
-                        session.setAttribute("error", errorMessage);
+                        session.setAttribute("errorMessage", errorMessage);
                         dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                     }
                     break;

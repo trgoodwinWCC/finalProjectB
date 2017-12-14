@@ -33,10 +33,10 @@ public class quizServletDB extends HttpServlet {
         Quiz saveQuiz = (Quiz)session.getAttribute("SaveQuiz");
         if (session.getAttribute("UserID")!=null)
             userInt = (int)session.getAttribute("UserID");
-        String usernameLogin = request.getParameter("UsernameLogin");
-        String passwordLogin = request.getParameter("PasswordLogin");
-        String usernameCreate = request.getParameter("UsernameCreate");
-        String passwordCreate = request.getParameter("PasswordCreate");
+        String usernameLogin = (String)session.getAttribute("UsernameLogin");
+        String passwordLogin = (String)session.getAttribute("PasswordLogin");
+        String usernameCreate = (String)session.getAttribute("UsernameCreate");
+        String passwordCreate = (String)session.getAttribute("PasswordCreate");
         
         Connection connection;
         Statement statement;
@@ -48,7 +48,7 @@ public class quizServletDB extends HttpServlet {
             if (statement != null ) {
                 //errorMessage = QuestionCollection.update(statement, request);
                 if(saveQuiz!=null) {
-                    quizSave.insert(statement,quizBean,userInt);
+                    quizSave.insert(statement,saveQuiz,userInt);
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 if(usernameLogin!=null&&passwordLogin!=null) {
@@ -70,8 +70,8 @@ public class quizServletDB extends HttpServlet {
                         errorMessage="Failed to create account";
                     else
                         errorMessage="Account created, now login";
-                    request.removeAttribute("UsernameCreate");
-                    request.removeAttribute("PasswordCreate");
+                    session.removeAttribute("UsernameCreate");
+                    session.removeAttribute("PasswordCreate");
                     dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                 }
                 System.out.println("Got to DB");

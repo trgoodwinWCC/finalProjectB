@@ -18,10 +18,9 @@
     </head>
     <body>
         
-    <c:set var="username" value="Test"/>
     <c:choose>
-        <c:when test="${!empty username}">
-            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${username}"></c:out></span> is logged in</span>
+        <c:when test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in</span>
         </c:when>
         <c:otherwise>
             <a class="login" href="login">Login</a>

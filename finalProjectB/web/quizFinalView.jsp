@@ -39,6 +39,9 @@
         </script>
     </head>
     <body>
+        <c:if test="${!empty Username}">
+            <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in</span>
+        </c:if>
         <div class="center"><c:out value="${quiz.quizName}"></c:out></div><br/>
         <c:if test="${!empty quiz}">
             <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">

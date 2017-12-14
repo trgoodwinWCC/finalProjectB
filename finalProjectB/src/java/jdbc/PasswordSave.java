@@ -61,10 +61,10 @@ public class PasswordSave {
             pmt = statement.getConnection().prepareStatement(loginSQL);
             pmt.setString(1, username);
             ResultSet rs = pmt.executeQuery();
-            if (!rs.first()) {
+            if (!rs.next()) {
                 return -1;
             }
-            loginSQL = "select Password,Salt,UserID from Users where User=?";
+            loginSQL = "select Password,Salt,UserID from Users where Username=?";
             pmt = statement.getConnection().prepareStatement(loginSQL);
             pmt.setString(1, username);
             rs = pmt.executeQuery();
@@ -72,7 +72,7 @@ public class PasswordSave {
             byte[] passwordFromDB = rs.getBytes("Password");
             byte[] salt = rs.getBytes("Salt");
             try {
-                loggedIn=authenticate(username, passwordFromDB, salt);
+                loggedIn=authenticate(passwordFromUser, passwordFromDB, salt);
             } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 System.out.println("Massive error in PasswordSave");
             }
@@ -92,11 +92,12 @@ public class PasswordSave {
             pmt = statement.getConnection().prepareStatement(createAccountSQL);
             pmt.setString(1, username);
             ResultSet rs = pmt.executeQuery();
-            if (!rs.first()) {
+            if (rs.next()) {
+                System.out.println("Username found, quit");
                 return false;
             }
             byte[] salt = generateSalt();
-            byte[] passwordToStore = getEncryptedPassword(username, salt);
+            byte[] passwordToStore = getEncryptedPassword(passwordFromUser, salt);
             createAccountSQL = "insert into Users values(null, ?, ?, ?)";
             pmt = statement.getConnection().prepareStatement(createAccountSQL);
             pmt.setString(1, username);
