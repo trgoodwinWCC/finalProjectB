@@ -4,6 +4,9 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class quizSave {
 
@@ -70,7 +73,30 @@ public class quizSave {
             System.out.println(ex.toString());
         }
     }
-
+    //change void to ArrayList<Quiz> MAKE SURE TO CHECK TOMCAT FOR BUG THAT NEEDS THE REDUNDANT generic: ArrayList<Quiz> temp = new ArrayList<Quiz>();
+    public static ArrayList<Quiz> getAllQuizzes(Statement stmt) {
+        String quizSQL = "Select ID,QuizName,QuizDesc,CreatedByUser FROM Quizzes";
+        ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
+        PreparedStatement pmt;
+        String error="";
+        try {
+            pmt = stmt.getConnection().prepareStatement(quizSQL);
+            ResultSet rs = pmt.executeQuery(quizSQL);
+            while (rs.next()) {
+                int quizID = rs.getInt("ID");
+                String quizName = rs.getString("QuizName");
+                String quizDesc = rs.getString("QuizDesc");
+                int createdByUser = rs.getInt("CreatedByUser");
+                Quiz temp = new Quiz(quizName, quizDesc);
+                temp.setQuizID(quizID);
+                temp.setCreatedUserID(createdByUser);
+                allQuizzes.add(temp);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error:"+ex.toString());
+        }
+        return allQuizzes;
+    }
     public static String getQuiz(Statement statement, int quizID) {
         // Change this to get just one quiz of quizID
         /* 
@@ -78,7 +104,6 @@ public class quizSave {
         Delete buttons need to be fixed and added for the take-a-quiz page.
         Take a quiz page needs all the quizzes listed.
         ^Make a arraylist of all the quizzes and their id so I can add a delete button foreach match between logged-in user and their quizzes.
-        Add/fix the correct answer checkbox and make sure one is picked somehow.
         Maybe do a include on the array display in creating a quiz.
         Maybe make a master css page and inlude it in all the .jsp pages.
         */

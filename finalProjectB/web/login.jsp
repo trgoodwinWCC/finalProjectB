@@ -16,7 +16,7 @@
     <body>
         <div class="content">
             <h2><c:out value="${errorMessage}">You must login/signup</c:out></h2>
-            <form action="loginServlet">
+            <form action="loginServlet" method="post">
                 <span>Login</span>
                 <br/><input type="text" name="UsernameLogin"/>Login Username.
                 <br/><input type="password" name="PasswordLogin"/>Login Password.
