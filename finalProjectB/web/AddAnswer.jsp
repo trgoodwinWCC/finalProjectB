@@ -33,7 +33,7 @@
         </c:if>
         <c:out value="${quiz.quizName}"></c:out><br/>
         <form action="quizServlet">
-            <input type="text" name="Answer"/>Add answer here.
+            <input type="text" name="Answer" autofocus/>Add answer here.
             <br/><input type="submit" name="action" value="Add answer and continue"/>
             <br/><input type="submit" name="action" value="Done adding answers"/>
         </form>

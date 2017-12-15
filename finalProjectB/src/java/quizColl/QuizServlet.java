@@ -19,12 +19,12 @@ public class QuizServlet extends HttpServlet {
         
         String action = req.getParameter("action");
         if (action != null) {
-            
             switch (action) {
                 case "Add quiz":
                     String quizTitle = req.getParameter("QuizTitle");
                     String quizDesc = req.getParameter("QuizDesc");
-                    if(quizTitle!=null&&!quizTitle.isEmpty()) {
+                    session.setAttribute("quizComplete", false);
+                    if((quizTitle!=null&&!quizTitle.isEmpty())&&(quizDesc!=null&&!quizDesc.isEmpty())) {
                         Quiz quizBean = new Quiz(quizTitle, quizDesc);
                         session.setAttribute("quiz", quizBean);
                         dispatcher = getServletContext().getRequestDispatcher("/AddQuestion.jsp");
@@ -88,29 +88,42 @@ public class QuizServlet extends HttpServlet {
                     break;
                 case "Set correct answers":
                     quizBean = (Quiz)session.getAttribute("quiz");
+                    boolean allHavePair = true;
                     for(int i=0;i<quizBean.getallQuestions().size();i++) {
-                        int correctAnswerAtQi = Integer.parseInt(req.getParameter(Integer.toString(i)));
-                        quizBean.getallQuestions().get(i).setCorrectAnswerIndex(correctAnswerAtQi);
+                        int correctAnswerAtQi;
+                        if (req.getParameter(Integer.toString(i))!=null) {
+                            correctAnswerAtQi = Integer.parseInt(req.getParameter(Integer.toString(i)));
+                            quizBean.getallQuestions().get(i).setCorrectAnswerIndex(correctAnswerAtQi);
+                        }
+                        else {
+                            allHavePair=false;
+                        }
                     }
-                    session.setAttribute("SaveQuiz", quizBean);
-                    session.setAttribute("quizComplete", true);
-                    dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
-                    session.removeAttribute("quiz");
+                    if(allHavePair) {
+                        session.setAttribute("quiz", quizBean);
+                        session.setAttribute("quizComplete", true);
+                        dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
+                    }
+                    else {
+                        dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
+                        errorMessage="A question does not have a correct answer.";
+                        session.setAttribute("error", errorMessage);
+                    }
                     break;
                 case "Save quiz":
                     quizBean = (Quiz)session.getAttribute("quiz");
                     session.setAttribute("SaveQuiz", quizBean);
                     dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
                     session.removeAttribute("quiz");
+                    session.setAttribute("quizComplete", false);
                     break;
                 case "Abandon quiz":
                     session.removeAttribute("quiz");
+                    session.setAttribute("quizComplete", false);
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                     break;
             }
-
         }
-        
         dispatcher.forward(req, resp);
     }
     
