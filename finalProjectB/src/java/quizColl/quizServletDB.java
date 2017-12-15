@@ -33,7 +33,9 @@ public class quizServletDB extends HttpServlet {
         String passwordLogin = (String)session.getAttribute("PasswordLogin");
         String usernameCreate = (String)session.getAttribute("UsernameCreate");
         String passwordCreate = (String)session.getAttribute("PasswordCreate");
-        String callForQuizzes = (String)session.getAttribute("AllQuizzes");
+        ArrayList<Quiz> callForQuizzes=null;
+        if (session.getAttribute("AllQuizzes")!=null)
+            callForQuizzes = (ArrayList<Quiz>)session.getAttribute("AllQuizzes");
         int takeQuizID=-1;
         if (session.getAttribute("TakeQuizID")!=null)
             takeQuizID = (int)session.getAttribute("TakeQuizID");

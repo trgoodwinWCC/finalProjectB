@@ -6,6 +6,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Take a quiz</title>
     </head>
+    <style>
+        .login {
+                background-color:lightgrey;
+                margin-right: 40px;
+                float: right;
+            }
+    </style>
     <body>
         <form action="index.jsp">
             <input type="submit" value="Go back"/>

@@ -18,6 +18,7 @@
             <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
         </c:if>
         <c:out value="${quizMade}"></c:out>
+        <c:set var="takeQuizComplete" value="false"></c:set>
         <a href='createQuiz.jsp'>Create a Quiz</a>
         <a href='quizServlet?action=LoadQuizzes'>Take a Quiz</a>
     </body>
