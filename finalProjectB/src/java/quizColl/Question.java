@@ -7,7 +7,7 @@ public class Question {
     
     private String question;
     private int questionIndex;
-    private ArrayList<String> answers = new ArrayList<>();
+    private ArrayList<String> answers = new ArrayList<String>();
     private int correctAnswerIndex;
 
     public Question(String question) {

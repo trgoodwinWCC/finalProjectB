@@ -19,7 +19,7 @@ public class MyConnection {
             //Load the Driver Class Now       
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             //change localhost to russet if you want to test this outside of the 8000 server
-            urlStr = "jdbc:mysql://russet.wccnet.edu/" + args[0]
+            urlStr = "jdbc:mysql://localhost/" + args[0]
                     + "?user=" + args[0] + "&password=" + args[1];
             System.out.println("Connecting to : " + urlStr);
             con = DriverManager.getConnection(urlStr);

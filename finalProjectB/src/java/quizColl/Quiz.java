@@ -6,7 +6,7 @@ public class Quiz {
     
     private String quizName;
     private String quizDesc;
-    private ArrayList<Question> allQuestions = new ArrayList<>();
+    private ArrayList<Question> allQuestions = new ArrayList<Question>();
     private int quizID;
     private int createdUserID;
 
