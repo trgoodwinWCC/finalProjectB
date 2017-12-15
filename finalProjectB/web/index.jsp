@@ -19,6 +19,6 @@
         </c:if>
         <c:out value="${quizMade}"></c:out>
         <a href='createQuiz.jsp'>Create a Quiz</a>
-        <a href='QuizIndex'>Take a Quiz</a>
+        <a href='quizServlet?action=LoadQuizzes'>Take a Quiz</a>
     </body>
 </html>

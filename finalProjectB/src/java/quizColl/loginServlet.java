@@ -53,7 +53,6 @@ public class loginServlet extends HttpServlet {
                     break;
             }
         }
-        //dispatcher = getServletContext().getRequestDispatcher("/db_personCollection.jsp");
         dispatcher.forward(req, resp);
     }
     

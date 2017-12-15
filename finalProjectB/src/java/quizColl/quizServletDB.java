@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class quizServletDB extends HttpServlet {
         String passwordLogin = (String)session.getAttribute("PasswordLogin");
         String usernameCreate = (String)session.getAttribute("UsernameCreate");
         String passwordCreate = (String)session.getAttribute("PasswordCreate");
+        String callForQuizzes = (String)session.getAttribute("AllQuizzes");
         
         Connection connection;
         Statement statement;
@@ -71,7 +73,12 @@ public class quizServletDB extends HttpServlet {
                     session.removeAttribute("PasswordCreate");
                     dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                 }
-                System.out.println("Got to DB");
+                if(callForQuizzes==null) {
+                    ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
+                    allQuizzes=quizSave.getAllQuizzes(statement);
+                    session.setAttribute("AllQuizzes", allQuizzes);
+                    dispatcher = getServletContext().getRequestDispatcher("/quizIndex.jsp");
+                }
                 statement.close();      
             }
             

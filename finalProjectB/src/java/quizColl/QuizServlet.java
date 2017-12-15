@@ -122,6 +122,10 @@ public class QuizServlet extends HttpServlet {
                     session.setAttribute("quizComplete", false);
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                     break;
+                case "LoadQuizzes":
+                    session.setAttribute("AllQuizzes", null);
+                    dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    break;
             }
         }
         dispatcher.forward(req, resp);
