@@ -53,7 +53,6 @@ public class QuizServlet extends HttpServlet {
                     quizBean = (Quiz)session.getAttribute("quiz");
                     String answer1 = req.getParameter("Answer");
                     if(answer1!=null&&!answer1.isEmpty()) {
-                        System.out.println(req.getParameter("AnswerCorrect"));
                         quizBean.getallQuestions().get(quizBean.getallQuestions().size()-1).setAnswers(answer1);
                         session.setAttribute("quiz", quizBean);
                     }
@@ -124,7 +123,11 @@ public class QuizServlet extends HttpServlet {
                     break;
                 case "LoadQuizzes":
                     session.setAttribute("AllQuizzes", null);
-                    System.out.println("Got to here, LoadQuizzes");
+                    dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    break;
+                case "TakeQuiz":
+                    int takeQuizID = Integer.parseInt(req.getParameter("quizID"));
+                    session.setAttribute("TakeQuizID", takeQuizID);
                     dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
                     break;
             }

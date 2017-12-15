@@ -34,8 +34,11 @@ public class quizServletDB extends HttpServlet {
         String usernameCreate = (String)session.getAttribute("UsernameCreate");
         String passwordCreate = (String)session.getAttribute("PasswordCreate");
         String callForQuizzes = (String)session.getAttribute("AllQuizzes");
+        int takeQuizID=-1;
+        if (session.getAttribute("TakeQuizID")!=null)
+            takeQuizID = (int)session.getAttribute("TakeQuizID");
         
-        System.out.println("userLogin:"+usernameLogin+", passLogin:"+passwordLogin+", userCreate:"+usernameCreate+", passCreate:"+passwordCreate+", SaveQuiz:"+saveQuiz+", callForQ:"+callForQuizzes);
+        //System.out.println("userLogin:"+usernameLogin+", passLogin:"+passwordLogin+", userCreate:"+usernameCreate+", passCreate:"+passwordCreate+", SaveQuiz:"+saveQuiz+", callForQ:"+callForQuizzes);
         
         Connection connection;
         Statement statement;
@@ -44,7 +47,7 @@ public class quizServletDB extends HttpServlet {
             connection = connectionPool.getConnection();
             statement = connection.createStatement();
 
-            if (statement != null ) {
+            if (statement != null) {
                 if(usernameLogin!=null&&passwordLogin!=null) {
                     userInt=PasswordSave.attemptLogin(usernameLogin, passwordLogin, statement);
                     if(userInt==-1) {
@@ -78,6 +81,13 @@ public class quizServletDB extends HttpServlet {
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 else if(callForQuizzes==null) {
+                    System.out.println("Got to here, DB call for quizzes");
+                    ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
+                    allQuizzes=quizSave.getAllQuizzes(statement);
+                    session.setAttribute("AllQuizzes", allQuizzes);
+                    dispatcher = getServletContext().getRequestDispatcher("/quizIndex.jsp");
+                }
+                else if(takeQuizID!=-1) {
                     System.out.println("Got to here, DB call for quizzes");
                     ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
                     allQuizzes=quizSave.getAllQuizzes(statement);

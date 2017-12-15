@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class quizSave {
 
@@ -97,91 +95,62 @@ public class quizSave {
         }
         return allQuizzes;
     }
-    public static String getQuiz(Statement statement, int quizID) {
-        // Change this to get just one quiz of quizID
-        /* 
-        Things to finish: 
-        Delete buttons need to be fixed and added for the take-a-quiz page.
-        Take a quiz page needs all the quizzes listed.
-        ^Make a arraylist of all the quizzes and their id so I can add a delete button foreach match between logged-in user and their quizzes.
-        Maybe do a include on the array display in creating a quiz.
-        Maybe make a master css page and inlude it in all the .jsp pages.
-        */
+    public static Quiz getQuiz(Statement statement, int quizID) {
         
-        /*
-        String quizSQL = "SELECT ID,QuizName,QuizDesc,CreatedByUser from Quizzes WHERE ID=?";
-        String questionSQL = "SELECT Question Questions values(null, ?, ?, ?)";
-        String answerSQL = "insert into Answers values(null, ?, ?)";
+        String quizSQL = "SELECT QuizName,QuizDesc,CreatedByUser from Quizzes WHERE ID=?";
+        String questionSQL = "SELECT QuestionID,Question,CorrectAnswerIndex from Questions WHERE QuizID=?";
+        String answerSQL = "SELECT Answer from Answers WHERE QuestionID=?";
         PreparedStatement pmt;
         String error="";
-        int quizID = 0;
         int questionID = 0;
+        String quizName;
+        String quizDesc;
+        int createdByUser;
         try {
-            pmt = statement.getConnection().prepareStatement(quizSQL,Statement.RETURN_GENERATED_KEYS);
-            pmt.setString(1, q.getQuizName());
-            pmt.setString(2, q.getQuizDesc());
-            pmt.setInt(3, userID);
-            pmt.executeUpdate();
-            ResultSet rs = pmt.getGeneratedKeys();
+            pmt = statement.getConnection().prepareStatement(quizSQL);
+            pmt.setInt(1, quizID);
+            ResultSet rs = pmt.executeQuery();
             if(rs.next()) {
-                quizID = rs.getInt(1);
+                quizName = rs.getString("QuizName");
+                quizDesc = rs.getString("QuizDesc");
+                createdByUser = rs.getInt("CreatedByUser");
             }
-        } catch (SQLException ex) {
-            error = ex.toString();
-        }
-
-        try {
-            System.out.println("Size:"+q.getallQuestions().size());
-            for(int i=0;i<(q.getallQuestions().size());i++) {
-                pmt = statement.getConnection().prepareStatement(questionSQL,Statement.RETURN_GENERATED_KEYS);
-                pmt.setString(1, q.getallQuestions().get(i).getQuestion());
-                pmt.setInt(2, q.getallQuestions().get(i).getCorrectAnswerIndex());
-                pmt.setInt(3, quizID);
-                System.out.println("Position i:"+i);
-                pmt.executeUpdate();
-                ResultSet rs = pmt.getGeneratedKeys();
-                if(rs.next()) {
-                    questionID = rs.getInt(1);
-                }
+            else {
+                System.out.println("Quiz#"+quizID+" not found");
+                return null;
+            }
+            Quiz wantedQuiz = new Quiz(quizName, quizDesc);
+            wantedQuiz.setQuizID(quizID);
+            wantedQuiz.setCreatedUserID(createdByUser);
+            //question
+            pmt = statement.getConnection().prepareStatement(questionSQL);
+            pmt.setInt(1, quizID);
+            rs = pmt.executeQuery();
+            int i=0;
+            while(rs.next()) {
+                questionID = rs.getInt("QuestionID");
+                String question = rs.getString("Question");
+                int correctAnswerIndex = rs.getInt("CorrectAnswerIndex");
+                wantedQuiz.getallQuestions().add(new Question(question));
+                wantedQuiz.getallQuestions().get(i).setCorrectAnswerIndex(correctAnswerIndex);
+                wantedQuiz.getallQuestions().get(i).setQuestionIndex(questionID);
+                i++;
+            }
+            //
+            //pmt = statement.getConnection().prepareStatement(answerSQL);
+            for(int k=0;k<(wantedQuiz.getallQuestions().size());k++) {
                 pmt = statement.getConnection().prepareStatement(answerSQL);
-                for(int k=0;k<(q.getallQuestions().get(i).getAnswers().size());k++) {
-                    pmt.setString(1, q.getallQuestions().get(i).getAnswers().get(k));
-                    pmt.setInt(2, questionID);
-                    System.out.println("Postion k:"+k);
-                    pmt.executeUpdate();
+                pmt.setInt(1, wantedQuiz.getallQuestions().get(k).getQuestionIndex());
+                rs = pmt.executeQuery();
+                while(rs.next()) {
+                    String answer = rs.getString("Answer");
+                    wantedQuiz.getallQuestions().get(k).setAnswers(answer);
                 }
             }
+            return wantedQuiz;
         } catch (SQLException ex) {
             error = ex.toString();
         }
-        System.out.println("got to insert just fine");
-        return error;
-    */
-        return "";
-    }
-    
-    
-    //old code from db_people
-    public static String getPeople(Statement statement) {
-        String error = "";
-        try {
-            String sql = "select * from PersonCollection";
-            System.out.println("sql=" + sql);
-            ResultSet rs = statement.executeQuery(sql);
-            //people.clear();
-            while (rs.next()) {
-                String n = rs.getString("Name");
-                String e = rs.getString("EyeColor");
-                String c = rs.getString("HairColor");
-                String h = rs.getString("Height");
-                String w = rs.getString("Weight");
-                int ind = rs.getInt("PersonSpot");
-                //DB_Person bk = new DB_Person(n, e, c, h, w, ind);
-                //people.add(bk);
-            }
-        } catch (SQLException ex) {
-            error = ex.toString();
-        }
-        return error;
+        return null;
     }
 }

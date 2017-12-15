@@ -53,8 +53,8 @@ public class Quiz {
     }
     
     
-    //other code starts here:
-    /*
-    
+    /* 
+    Maybe do a include on the array display in creating a quiz.
+    Maybe make a master css page and inlude it in all the .jsp pages.
     */
 }
