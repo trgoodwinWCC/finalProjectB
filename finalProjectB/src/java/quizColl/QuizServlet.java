@@ -124,6 +124,7 @@ public class QuizServlet extends HttpServlet {
                     break;
                 case "LoadQuizzes":
                     session.setAttribute("AllQuizzes", null);
+                    System.out.println("Got to here, LoadQuizzes");
                     dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
                     break;
             }

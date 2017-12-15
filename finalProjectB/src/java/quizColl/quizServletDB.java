@@ -35,6 +35,8 @@ public class quizServletDB extends HttpServlet {
         String passwordCreate = (String)session.getAttribute("PasswordCreate");
         String callForQuizzes = (String)session.getAttribute("AllQuizzes");
         
+        System.out.println("userLogin:"+usernameLogin+", passLogin:"+passwordLogin+", userCreate:"+usernameCreate+", passCreate:"+passwordCreate+", SaveQuiz:"+saveQuiz+", callForQ:"+callForQuizzes);
+        
         Connection connection;
         Statement statement;
         String errorMessage = "";
@@ -43,13 +45,6 @@ public class quizServletDB extends HttpServlet {
             statement = connection.createStatement();
 
             if (statement != null ) {
-                if(saveQuiz!=null) {
-                    quizSave.insert(statement,saveQuiz,userInt);
-                    // make sure to add the next line to the createQuiz page and the take page so that it does not display again.
-                    session.setAttribute("quizMade", "Quiz saved");
-                    session.removeAttribute("saveQuiz");
-                    dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
-                }
                 if(usernameLogin!=null&&passwordLogin!=null) {
                     userInt=PasswordSave.attemptLogin(usernameLogin, passwordLogin, statement);
                     if(userInt==-1) {
@@ -61,10 +56,12 @@ public class quizServletDB extends HttpServlet {
                     else {
                         session.setAttribute("Username", usernameLogin);
                         session.setAttribute("UserID", userInt);
+                        session.removeAttribute("UsernameLogin");
+                        session.removeAttribute("PasswordLogin");
                         dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                     }
                 }
-                if(usernameCreate!=null&&passwordCreate!=null) {
+                else if(usernameCreate!=null&&passwordCreate!=null) {
                     if(!PasswordSave.createAccount(usernameCreate, passwordCreate, statement))
                         errorMessage="Failed to create account";
                     else
@@ -73,7 +70,15 @@ public class quizServletDB extends HttpServlet {
                     session.removeAttribute("PasswordCreate");
                     dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
                 }
-                if(callForQuizzes==null) {
+                else if(saveQuiz!=null) {
+                    quizSave.insert(statement,saveQuiz,userInt);
+                    // make sure to add the next line to the createQuiz page and the take page so that it does not display again.
+                    session.setAttribute("quizMade", "Quiz saved");
+                    session.removeAttribute("saveQuiz");
+                    dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+                }
+                else if(callForQuizzes==null) {
+                    System.out.println("Got to here, DB call for quizzes");
                     ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
                     allQuizzes=quizSave.getAllQuizzes(statement);
                     session.setAttribute("AllQuizzes", allQuizzes);

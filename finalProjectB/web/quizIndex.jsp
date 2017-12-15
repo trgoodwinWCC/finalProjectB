@@ -4,9 +4,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Take a quiz</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="index.jsp">
+            <input type="submit" value="Go back"/>
+        </form>
+        <c:forEach var="quizzes" items="${AllQuizzes}" varStatus="loopQ">
+            <a href="quizServlet?action=TakeQuiz&quizID=<c:out value="quizzes.quizID"></c:out>"><c:out value="${quizzes.quizName}"></c:out></a>
+        </c:forEach>
     </body>
 </html>

@@ -22,7 +22,7 @@
         </c:if>
         <h2>Quiz creation start</h2>
         <form action="quizServlet">
-            <input type="text" name="QuizTitle"/>Add your quiz's title here.
+            <input type="text" name="QuizTitle" maxlength="50"/>Add your quiz's title here.
             <br/><input type="text" name="QuizDesc"/>Add your description here.
             <br/><input type="submit" name="action" value="Add quiz">
         </form>
