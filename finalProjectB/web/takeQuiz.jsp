@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>The final touches</title>
+        <title>Take a this quiz</title>
         <style>
             body {
                 background-color: <c:out value="${backgroundColor}">peach</c:out>;
@@ -29,27 +29,17 @@
             .center {
                 text-align: center;
             }
-            <%-- consider making a css page for this --%>
         </style>
-        <script type="text/javascript">
-            .getElementById("deleteButton")
-            .addEventListener("click", function(){ 
-                return confirm("This will delete the quiz, are you sure?");
-            });
-        </script>
     </head>
     <body>
         <c:if test="${!empty Username}">
             <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
         </c:if>
-        <br/><div class="center"><c:out value="${quiz.quizName}"></c:out></div><br/>
-        <h2><c:out value="${error}"></c:out></h2>
-        <br/>
-        <c:if test="${!empty quiz}">
-            <c:if test="${!quizComplete}">
-                <h3>Check the correct answer for each question</h3>
+        <br/><div class="center"><c:out value="${TakeQuiz.quizName}"></c:out></div><br/>
+        <c:if test="${!empty TakeQuiz}">
+            <c:if test="${!takeQuizComplete}">
                 <form action="quizServlet">
-                    <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">
+                    <c:forEach var="question" items="${TakeQuiz.allQuestions}" varStatus="loopQ">
                         <table>
                             <tr>
                                 <th colspan="<c:out value="${fn:length(question.answers)}"></c:out>"><c:out value="Question: ${question.question}"></c:out></th>
@@ -63,15 +53,15 @@
                             </tr>
                         </table>
                     </c:forEach>
-                    <input type="submit" name="action" value="Set correct answers"/>
+                    <input type="submit" name="action" value="Enter answers"/>
                 </form>
             </c:if>
         </c:if>
-        <c:if test="${quizComplete}">
+        <c:if test="${takeQuizComplete}">
             <br/>
-            <form action="quizServlet" class="center">
-                <input type="submit" name="action" value="Save quiz" class="center"/>
-                <input type="submit" name="action" id="deleteButton" value="Abandon quiz" class="center"/>
+            <c:out value="${score}"></c:out>
+            <form action="index.jsp" class="center">
+                <input type="submit" name="action" value="Go back to index" class="center"/>
             </form>
         </c:if>
     </body>

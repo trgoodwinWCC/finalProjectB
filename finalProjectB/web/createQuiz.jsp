@@ -21,6 +21,9 @@
             <span class="login">User <span style="font-size:large;color:blue"><c:out value="${Username}"></c:out></span> is logged in. <a href='loginServlet?action=Logout'>Logout</a></span>
         </c:if>
         <h2>Quiz creation start</h2>
+        <br/>
+        <h2><c:out value="${error}"></c:out></h2>
+        <br/>
         <form action="quizServlet">
             <input type="text" name="QuizTitle" maxlength="50"/>Add your quiz's title here.
             <br/><input type="text" name="QuizDesc"/>Add your description here.

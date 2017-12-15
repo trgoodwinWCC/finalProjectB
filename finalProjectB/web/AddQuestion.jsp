@@ -38,6 +38,8 @@
             <br/><input type="submit" name="action" value="Done adding questions"/>
         </form>
         <br/>
+        <h2><c:out value="${error}"></c:out></h2>
+        <br/>
         <c:if test="${!empty quiz}">
             <form action="quizServlet">
                 <c:forEach var="question" items="${quiz.allQuestions}" varStatus="loopQ">

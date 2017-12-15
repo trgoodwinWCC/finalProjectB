@@ -81,18 +81,15 @@ public class quizServletDB extends HttpServlet {
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 else if(callForQuizzes==null) {
-                    System.out.println("Got to here, DB call for quizzes");
                     ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
                     allQuizzes=quizSave.getAllQuizzes(statement);
                     session.setAttribute("AllQuizzes", allQuizzes);
                     dispatcher = getServletContext().getRequestDispatcher("/quizIndex.jsp");
                 }
                 else if(takeQuizID!=-1) {
-                    System.out.println("Got to here, DB call for quizzes");
-                    ArrayList<Quiz> allQuizzes = new ArrayList<Quiz>();
-                    allQuizzes=quizSave.getAllQuizzes(statement);
-                    session.setAttribute("AllQuizzes", allQuizzes);
-                    dispatcher = getServletContext().getRequestDispatcher("/quizIndex.jsp");
+                    Quiz temp = quizSave.getQuiz(statement, takeQuizID);
+                    session.setAttribute("TakeQuiz", temp);
+                    dispatcher = getServletContext().getRequestDispatcher("/takeQuiz.jsp");
                 }
                 statement.close();      
             }

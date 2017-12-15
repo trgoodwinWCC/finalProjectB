@@ -101,13 +101,12 @@ public class QuizServlet extends HttpServlet {
                     if(allHavePair) {
                         session.setAttribute("quiz", quizBean);
                         session.setAttribute("quizComplete", true);
-                        dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     }
                     else {
-                        dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                         errorMessage="A question does not have a correct answer.";
                         session.setAttribute("error", errorMessage);
                     }
+                    dispatcher = getServletContext().getRequestDispatcher("/quizFinalView.jsp");
                     break;
                 case "Save quiz":
                     quizBean = (Quiz)session.getAttribute("quiz");
@@ -129,6 +128,32 @@ public class QuizServlet extends HttpServlet {
                     int takeQuizID = Integer.parseInt(req.getParameter("quizID"));
                     session.setAttribute("TakeQuizID", takeQuizID);
                     dispatcher = getServletContext().getRequestDispatcher("/quizServletDB");
+                    break;
+                case "Enter answers":
+                    Quiz takeQuiz = (Quiz)session.getAttribute("TakeQuiz");
+                    boolean allHaveAnswer = true;
+                    double score=0;
+                    for(int i=0;i<takeQuiz.getallQuestions().size();i++) {
+                        int attempAnswer;
+                        if (req.getParameter(Integer.toString(i))!=null) {
+                            attempAnswer = Integer.parseInt(req.getParameter(Integer.toString(i)));
+                            if(takeQuiz.getallQuestions().get(i).getCorrectAnswerIndex()==attempAnswer)
+                                score++;
+                        }
+                        else {
+                            allHaveAnswer=false;
+                        }
+                    }
+                    if(allHaveAnswer) {
+                        score=score/takeQuiz.getallQuestions().size();
+                        session.setAttribute("PercentageCorrect", score);
+                        session.setAttribute("takeQuizComplete", true);
+                    }
+                    else {
+                        errorMessage="Not all questions have a selected answer.";
+                        session.setAttribute("error", errorMessage);
+                    }
+                    dispatcher = getServletContext().getRequestDispatcher("/takeQuiz.jsp");
                     break;
             }
         }
