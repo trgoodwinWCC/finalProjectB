@@ -132,7 +132,7 @@ public class QuizServlet extends HttpServlet {
                 case "Enter answers":
                     Quiz takeQuiz = (Quiz)session.getAttribute("TakeQuiz");
                     boolean allHaveAnswer = true;
-                    double score=0;
+                    double score=0.0;
                     for(int i=0;i<takeQuiz.getallQuestions().size();i++) {
                         int attempAnswer;
                         if (req.getParameter(Integer.toString(i))!=null) {
@@ -146,7 +146,7 @@ public class QuizServlet extends HttpServlet {
                     }
                     if(allHaveAnswer) {
                         score=score/takeQuiz.getallQuestions().size();
-                        session.setAttribute("PercentageCorrect", score);
+                        session.setAttribute("PercentageCorrect", "Your score percentage: "+score);
                         session.setAttribute("takeQuizComplete", true);
                     }
                     else {

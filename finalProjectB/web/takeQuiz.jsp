@@ -27,6 +27,8 @@
                 padding: 10px;
             }
             .center {
+                margin: auto;
+                width: 50%;
                 text-align: center;
             }
         </style>
@@ -59,7 +61,7 @@
         </c:if>
         <c:if test="${takeQuizComplete}">
             <br/>
-            <c:out value="${score}"></c:out>
+            <div class="center"><c:out value="${PercentageCorrect}"></c:out></div>
             <form action="index.jsp" class="center">
                 <input type="submit" name="action" value="Go back to index" class="center"/>
             </form>

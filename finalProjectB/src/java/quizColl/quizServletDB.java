@@ -79,7 +79,7 @@ public class quizServletDB extends HttpServlet {
                     quizSave.insert(statement,saveQuiz,userInt);
                     // make sure to add the next line to the createQuiz page and the take page so that it does not display again.
                     session.setAttribute("quizMade", "Quiz saved");
-                    session.removeAttribute("saveQuiz");
+                    session.removeAttribute("SaveQuiz");
                     dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
                 }
                 else if(callForQuizzes==null) {
